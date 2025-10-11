@@ -26,7 +26,7 @@ class SimpleAIService {
 
       // 使用OpenAI Vision API進行食物識別
       const completion = await this.openai.chat.completions.create({
-        model: "gpt-4-vision-preview",
+        model: "gpt-4o",
         messages: [
           {
             role: "user",
