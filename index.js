@@ -42,7 +42,7 @@ app.get('/test-new-endpoint', (req, res) => {
   });
 });
 
-app.post('/api/food-recognition/analyze', upload.single('image'), async (req, res) => {
+app.post('/api/food-recognition/analyze-new', upload.single('image'), async (req, res) => {
   console.log('收到圖片上傳請求 - 使用真實AI分析');
   console.log('OpenAI API Key存在:', !!process.env.OPENAI_API_KEY);
   
