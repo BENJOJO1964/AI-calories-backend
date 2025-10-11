@@ -91,12 +91,16 @@ async function startServer() {
       console.warn('⚠️ Redis connection failed (optional for food recognition):', redisError.message);
     }
     
-    // Start server even if database connections fail
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-      console.log(`📱 Environment: ${process.env.NODE_ENV}`);
-      console.log(`🔗 API Base URL: http://localhost:${PORT}/api`);
-    });
+    // Start server even if database connections fail (only if not Vercel)
+    if (!process.env.VERCEL) {
+      app.listen(PORT, () => {
+        console.log(`🚀 Server running on port ${PORT}`);
+        console.log(`📱 Environment: ${process.env.NODE_ENV}`);
+        console.log(`🔗 API Base URL: http://localhost:${PORT}/api`);
+      });
+    } else {
+      console.log('Running as Vercel serverless function');
+    }
   } catch (error) {
     console.error('❌ Failed to start server:', error);
     process.exit(1);
@@ -114,6 +118,9 @@ process.on('SIGINT', () => {
   process.exit(0);
 });
 
-startServer();
+// Only start server if not running as Vercel function
+if (!process.env.VERCEL) {
+  startServer();
+}
 
 module.exports = app;
