@@ -34,6 +34,14 @@ app.get('/health', (req, res) => {
   });
 });
 
+app.get('/test-new-endpoint', (req, res) => {
+  res.json({
+    message: 'NEW ENDPOINT WORKING!',
+    timestamp: new Date().toISOString(),
+    version: 'test-v1'
+  });
+});
+
 app.post('/api/food-recognition/analyze', upload.single('image'), async (req, res) => {
   console.log('收到圖片上傳請求 - 使用真實AI分析');
   console.log('OpenAI API Key存在:', !!process.env.OPENAI_API_KEY);
