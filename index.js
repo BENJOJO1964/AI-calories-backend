@@ -21,7 +21,11 @@ const upload = multer({
 });
 
 app.get('/', (req, res) => {
-  res.json({ message: 'Backend is working!' });
+  res.json({ 
+    message: 'Backend is working with NEW CODE!',
+    version: 'root-v1',
+    timestamp: new Date().toISOString()
+  });
 });
 
 app.get('/health', (req, res) => {
