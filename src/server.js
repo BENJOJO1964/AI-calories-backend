@@ -75,15 +75,23 @@ app.use(errorHandler);
 // Initialize database connections and start server
 async function startServer() {
   try {
-    // Connect to PostgreSQL
-    await connectDB();
-    console.log('✅ Connected to PostgreSQL database');
+    // Try to connect to PostgreSQL (optional for food recognition)
+    try {
+      await connectDB();
+      console.log('✅ Connected to PostgreSQL database');
+    } catch (dbError) {
+      console.warn('⚠️ PostgreSQL connection failed (optional for food recognition):', dbError.message);
+    }
     
-    // Connect to Redis
-    await connectRedis();
-    console.log('✅ Connected to Redis cache');
+    // Try to connect to Redis (optional for food recognition)
+    try {
+      await connectRedis();
+      console.log('✅ Connected to Redis cache');
+    } catch (redisError) {
+      console.warn('⚠️ Redis connection failed (optional for food recognition):', redisError.message);
+    }
     
-    // Start server
+    // Start server even if database connections fail
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
       console.log(`📱 Environment: ${process.env.NODE_ENV}`);
