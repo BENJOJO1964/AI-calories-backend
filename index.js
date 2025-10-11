@@ -151,9 +151,12 @@ app.post('/api/food-recognition/analyze-new', upload.single('image'), async (req
   }
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+// 對於 Vercel，不需要 app.listen
+if (!process.env.VERCEL) {
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
+}
 
 module.exports = app;
