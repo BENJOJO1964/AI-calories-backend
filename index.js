@@ -24,7 +24,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+  res.json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    hasOpenAIKey: !!process.env.OPENAI_API_KEY
+  });
 });
 
 app.post('/api/food-recognition/analyze', upload.single('image'), async (req, res) => {
