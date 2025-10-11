@@ -118,46 +118,13 @@ app.post('/api/food-recognition/analyze', upload.single('image'), async (req, re
     }
   } catch (error) {
     console.error('AI分析錯誤:', error);
+    console.error('錯誤詳情:', error.message);
     
-    // 如果OpenAI API密鑰未設置，提供更合理的測試數據
-    if (!process.env.OPENAI_API_KEY) {
-      console.log('OpenAI API密鑰未設置，使用測試數據');
-      const testFoods = [
-        { name: '蘋果', calories: 52, protein: 0.3, carbs: 14, fat: 0.2 },
-        { name: '香蕉', calories: 89, protein: 1.1, carbs: 23, fat: 0.3 },
-        { name: '白米飯', calories: 130, protein: 2.7, carbs: 28, fat: 0.3 },
-        { name: '雞胸肉', calories: 165, protein: 31, carbs: 0, fat: 3.6 },
-        { name: '雞蛋', calories: 155, protein: 13, carbs: 1.1, fat: 11 }
-      ];
-      
-      const randomFood = testFoods[Math.floor(Math.random() * testFoods.length)];
-      
-      res.json({
-        success: true,
-        message: 'AI分析成功（測試模式）',
-        foods: [{
-          name: randomFood.name,
-          confidence: 0.85,
-          estimatedServing: '100g',
-          nutrition: {
-            calories: randomFood.calories,
-            protein: randomFood.protein,
-            carbs: randomFood.carbs,
-            fat: randomFood.fat,
-            fiber: 2,
-            sugar: 5,
-            sodium: 100
-          }
-        }],
-        confidence: 0.85,
-        timestamp: new Date().toISOString()
-      });
-      return;
-    }
-    
+    // 返回真實的錯誤信息，不要隱藏問題
     res.status(500).json({
       success: false,
-      message: 'AI分析服務暫時無法使用，請稍後重試。'
+      message: `AI分析失敗: ${error.message}`,
+      error: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
   }
 });
