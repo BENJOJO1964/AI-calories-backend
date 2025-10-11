@@ -28,8 +28,9 @@ app.get('/health', (req, res) => {
   res.json({ 
     status: 'OK', 
     timestamp: new Date().toISOString(),
-    version: 'fixed-v1',
-    hasOpenAIKey: !!process.env.OPENAI_API_KEY
+    version: 'fixed-v2-DEPLOYED',
+    hasOpenAIKey: !!process.env.OPENAI_API_KEY,
+    message: 'This is the new backend code'
   });
 });
 
